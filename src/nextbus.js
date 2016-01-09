@@ -65,7 +65,7 @@ var BusStopInfo = React.createClass({
 			console.log(this.status);
 		});
 		var cred = 'userhash=6cd8b2e103f12ac32f5a217e5ff4b36aec11f6fe3c77';
-		req.open('GET', 'http://api.reittiopas.fi/hsl/beta/?' + cred + '&epsg_in=wgs84&epsg_out=wgs84&request=stop&code=' + this.props.code + '&time_limit=60&p=110000100011');
+		req.open('GET', 'http://api.reittiopas.fi/hsl/beta/?' + cred + '&request=stop&code=' + this.props.code);
 		req.send();
 	},
 	render: function () {
