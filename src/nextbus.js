@@ -24,9 +24,10 @@ var Departure = React.createClass({
 		var line = lineFromJORE(this.props.code);
 		var time = printableTime(this.props.time);
 		return (
-			<li>
-			{line}: {time}
-			</li>
+			<tr>
+			<td>{line}</td>
+			<td>{time}</td>
+			</tr>
 		);
 	}
 });
@@ -39,9 +40,12 @@ var Departures = React.createClass({
 			);
 		});
 		return (
-			<ul>
+			<table>
+			<thead><tr><th>Linja</th><th>Ohittaa</th></tr></thead>
+			<tbody>
 			{departures}
-			</ul>
+			</tbody>
+			</table>
 		);
 	}
 });
