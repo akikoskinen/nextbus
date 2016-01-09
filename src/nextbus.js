@@ -70,7 +70,10 @@ var BusStopInfo = React.createClass({
 	},
 	render: function () {
 		return (
+			<div>
+			<h3>{this.state.address_fi}</h3>
 			<Departures data={this.state.departures} />
+			</div>
 		);
 	}
 });
