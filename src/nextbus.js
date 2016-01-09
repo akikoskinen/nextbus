@@ -50,7 +50,7 @@ var Departures = React.createClass({
 	}
 });
 
-var BusStopInfo = React.createClass({
+var StopInfo = React.createClass({
 	getInitialState: function () {
 		return { departures: [] };
 	},
@@ -78,7 +78,23 @@ var BusStopInfo = React.createClass({
 	}
 });
 
+var StopInfos = React.createClass({
+	render: function () {
+		var stopInfos = this.props.stopCodes.map(function (stopCode) {
+			return (
+				<StopInfo code={stopCode} />
+			);
+		});
+		return (
+			<div>
+			{stopInfos}
+			</div>
+		);
+	}
+});
+
+var stopCodes = ['1412118', '1412134'];
 ReactDOM.render(
-	<BusStopInfo code="1412118" />,
-	document.getElementById('stop')
+	<StopInfos stopCodes={stopCodes} />,
+	document.getElementById('root')
 );
