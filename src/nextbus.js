@@ -29,7 +29,7 @@ var Departure = React.createClass({
 		return (
 			<tr>
 			<td>{line}</td>
-			<td>{time.getHours() + '.' + time.getMinutes()}</td>
+			<td>{time.getHours() + '.' + (time.getMinutes() < 10 ? '0' : '') + time.getMinutes()}</td>
 			<td>{minutesUntil}</td>
 			</tr>
 		);
