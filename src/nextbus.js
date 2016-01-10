@@ -39,7 +39,7 @@ var Departure = React.createClass({
 var Departures = React.createClass({
 	render: function () {
 		var departures = this.props.data.filter(function (departure) {
-			return (departure.time - this.props.now) < MaxTimeUntilDeparture;
+			return departure.time > this.props.now && (departure.time - this.props.now) < MaxTimeUntilDeparture;
 		}, this).map(function(departure) {
 			return (
 				<Departure data={departure} now={this.props.now} />
