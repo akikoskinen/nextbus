@@ -1,5 +1,8 @@
 'use strict';
 
+var NormalFetchInterval = 60 * 60 * 1000;
+var FailedFetchInterval =  1 * 60 * 1000;
+
 function lineFromJORE(jore) {
 	if (jore.length == 7) {
 		jore = jore.substr(1, 4);
@@ -51,22 +54,27 @@ var Departures = React.createClass({
 });
 
 var StopInfo = React.createClass({
-	getInitialState: function () {
-		return { departures: [] };
-	},
-	componentDidMount: function () {
+	_getInfo: function () {
 		var self = this;
 		var req = new XMLHttpRequest();
 		req.addEventListener('load', function () {
 			var res = JSON.parse(this.responseText)[0];
 			self.setState(res);
+			setTimeout(self._getInfo, NormalFetchInterval);
 		});
 		req.addEventListener('error', function () {
 			console.log(this.status);
+			setTimeout(self._getInfo, FailedFetchInterval);
 		});
 		var cred = 'userhash=6cd8b2e103f12ac32f5a217e5ff4b36aec11f6fe3c77';
 		req.open('GET', 'http://api.reittiopas.fi/hsl/beta/?' + cred + '&request=stop&code=' + this.props.code);
 		req.send();
+	},
+	getInitialState: function () {
+		return { departures: [] };
+	},
+	componentDidMount: function () {
+		this._getInfo();
 	},
 	render: function () {
 		return (
