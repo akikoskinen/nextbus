@@ -42,7 +42,7 @@ var Departures = React.createClass({
 			return departure.time > this.props.now && (departure.time - this.props.now) < MaxTimeUntilDeparture;
 		}, this).map(function(departure) {
 			return (
-				<Departure data={departure} now={this.props.now} />
+				<Departure data={departure} now={this.props.now} key={departure.code + departure.time} />
 			);
 		}, this);
 		return (
@@ -109,7 +109,7 @@ var StopInfos = React.createClass({
 	render: function () {
 		var stopInfos = this.props.stopCodes.map(function (stopCode) {
 			return (
-				<StopInfo code={stopCode} now={this.state.now} />
+				<StopInfo code={stopCode} now={this.state.now} key={stopCode} />
 			);
 		}, this);
 		return (
