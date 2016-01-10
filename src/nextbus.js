@@ -4,8 +4,6 @@ var NormalFetchInterval = 60 * 60 * 1000;
 var FailedFetchInterval =  1 * 60 * 1000;
 var MaxTimeUntilDeparture = 60 * 60 * 1000;
 
-var now = new Date();
-
 function lineFromJORE(jore) {
 	if (jore.length == 7) {
 		jore = jore.substr(1, 4);
@@ -27,7 +25,7 @@ var Departure = React.createClass({
 	render: function () {
 		var line = lineFromJORE(this.props.data.code);
 		var time = this.props.data.time;
-		var minutesUntil = parseInt((time - now) / 60000);
+		var minutesUntil = parseInt((time - this.props.now) / 60000);
 		return (
 			<tr>
 			<td>{line}</td>
@@ -41,12 +39,12 @@ var Departure = React.createClass({
 var Departures = React.createClass({
 	render: function () {
 		var departures = this.props.data.filter(function (departure) {
-			return (departure.time - now) < MaxTimeUntilDeparture;
-		}).map(function(departure) {
+			return (departure.time - this.props.now) < MaxTimeUntilDeparture;
+		}, this).map(function(departure) {
 			return (
-				<Departure data={departure} />
+				<Departure data={departure} now={this.props.now} />
 			);
-		});
+		}, this);
 		return (
 			<table>
 			<thead><tr><th>Linja</th><th>Ohittaa</th><th>Minuuttia aikaa</th></tr></thead>
@@ -90,19 +88,30 @@ var StopInfo = React.createClass({
 		return (
 			<div>
 			<h3>{this.state.address_fi}</h3>
-			<Departures data={this.state.departures} />
+			<Departures data={this.state.departures} now={this.props.now} />
 			</div>
 		);
 	}
 });
 
 var StopInfos = React.createClass({
+	_updateState: function () {
+		var now = new Date();
+		this.setState({ now: now });
+		setTimeout(this._updateState, 65000 - now.getSeconds() * 1000 - now.getMilliseconds()) ;
+	},
+	getInitialState: function () {
+		return { now: new Date() };
+	},
+	componentDidMount: function () {
+		this._updateState();
+	},
 	render: function () {
 		var stopInfos = this.props.stopCodes.map(function (stopCode) {
 			return (
-				<StopInfo code={stopCode} />
+				<StopInfo code={stopCode} now={this.state.now} />
 			);
-		});
+		}, this);
 		return (
 			<div>
 			{stopInfos}
