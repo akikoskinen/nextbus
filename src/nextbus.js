@@ -40,11 +40,7 @@ var Departure = React.createClass({
 
 var Departures = React.createClass({
 	render: function () {
-		var departures = this.props.data.map(function (departure) {
-			departure.time = dateTimeIntsToDate(departure.date, departure.time);
-			delete departure.date;
-			return departure;
-		}).filter(function (departure) {
+		var departures = this.props.data.filter(function (departure) {
 			return (departure.time - now) < MaxTimeUntilDeparture;
 		}).map(function(departure) {
 			return (
@@ -68,7 +64,12 @@ var StopInfo = React.createClass({
 		var req = new XMLHttpRequest();
 		req.addEventListener('load', function () {
 			var res = JSON.parse(this.responseText)[0];
+			res.departures.forEach(function (value) {
+				value.time = dateTimeIntsToDate(value.date, value.time);
+				delete value.date;
+			});
 			self.setState(res);
+
 			setTimeout(self._getInfo, NormalFetchInterval);
 		});
 		req.addEventListener('error', function () {
