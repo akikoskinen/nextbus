@@ -3,6 +3,8 @@
 var NormalFetchInterval = 60 * 60 * 1000;
 var FailedFetchInterval =  1 * 60 * 1000;
 
+var now = new Date();
+
 function lineFromJORE(jore) {
 	if (jore.length == 7) {
 		jore = jore.substr(1, 4);
@@ -23,11 +25,13 @@ function dateTimeIntsToDate(date, time) {
 var Departure = React.createClass({
 	render: function () {
 		var line = lineFromJORE(this.props.data.code);
-		var time = dateTimeIntsToDate(this.props.data.date, this.props.data.time);
+		var time = this.props.data.time;
+		var minutesUntil = parseInt((time - now) / 60000);
 		return (
 			<tr>
 			<td>{line}</td>
 			<td>{time.getHours() + '.' + time.getMinutes()}</td>
+			<td>{minutesUntil}</td>
 			</tr>
 		);
 	}
@@ -35,14 +39,18 @@ var Departure = React.createClass({
 
 var Departures = React.createClass({
 	render: function () {
-		var departures = this.props.data.map(function(departure) {
+		var departures = this.props.data.map(function (departure) {
+			departure.time = dateTimeIntsToDate(departure.date, departure.time);
+			delete departure.date;
+			return departure;
+		}).map(function(departure) {
 			return (
 				<Departure data={departure} />
 			);
 		});
 		return (
 			<table>
-			<thead><tr><th>Linja</th><th>Ohittaa</th></tr></thead>
+			<thead><tr><th>Linja</th><th>Ohittaa</th><th>Minuuttia aikaa</th></tr></thead>
 			<tbody>
 			{departures}
 			</tbody>
