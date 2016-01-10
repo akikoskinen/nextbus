@@ -2,6 +2,7 @@
 
 var NormalFetchInterval = 60 * 60 * 1000;
 var FailedFetchInterval =  1 * 60 * 1000;
+var MaxTimeUntilDeparture = 60 * 60 * 1000;
 
 var now = new Date();
 
@@ -43,6 +44,8 @@ var Departures = React.createClass({
 			departure.time = dateTimeIntsToDate(departure.date, departure.time);
 			delete departure.date;
 			return departure;
+		}).filter(function (departure) {
+			return (departure.time - now) < MaxTimeUntilDeparture;
 		}).map(function(departure) {
 			return (
 				<Departure data={departure} />
