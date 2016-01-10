@@ -24,8 +24,8 @@ function printableTime(time) {
 
 var Departure = React.createClass({
 	render: function () {
-		var line = lineFromJORE(this.props.code);
-		var time = printableTime(this.props.time);
+		var line = lineFromJORE(this.props.data.code);
+		var time = printableTime(this.props.data.time);
 		return (
 			<tr>
 			<td>{line}</td>
@@ -39,7 +39,7 @@ var Departures = React.createClass({
 	render: function () {
 		var departures = this.props.data.map(function(departure) {
 			return (
-				<Departure code={departure.code} time={departure.time} />
+				<Departure data={departure} />
 			);
 		});
 		return (
