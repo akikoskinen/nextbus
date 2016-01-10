@@ -14,22 +14,20 @@ function lineFromJORE(jore) {
 	return jore;
 }
 
-function printableTime(time) {
+function dateTimeIntsToDate(date, time) {
+	date = '' + date;
 	time = '' + time;
-	if (time.length == 4) {
-		time = time.substr(0, 2) + '.' + time.substr(2, 2);
-	}
-	return time;
+	return new Date(date.substr(0, 4), date.substr(4, 2) - 1, date.substr(6, 2), time.substr(0, 2), time.substr(2, 2));
 }
 
 var Departure = React.createClass({
 	render: function () {
 		var line = lineFromJORE(this.props.data.code);
-		var time = printableTime(this.props.data.time);
+		var time = dateTimeIntsToDate(this.props.data.date, this.props.data.time);
 		return (
 			<tr>
 			<td>{line}</td>
-			<td>{time}</td>
+			<td>{time.getHours() + '.' + time.getMinutes()}</td>
 			</tr>
 		);
 	}
