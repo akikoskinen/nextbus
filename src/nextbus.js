@@ -27,7 +27,7 @@ var Departure = React.createClass({
 		var time = this.props.data.time;
 		var minutesUntil = parseInt((time - this.props.now) / 60000);
 		return (
-			<tr>
+			<tr className={minutesUntil < 10 ? 'danger' : ''}>
 			<td>{line}</td>
 			<td>{time.getHours() + '.' + (time.getMinutes() < 10 ? '0' : '') + time.getMinutes()}</td>
 			<td>{minutesUntil}</td>
