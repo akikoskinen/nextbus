@@ -46,12 +46,14 @@ var Departures = React.createClass({
 			);
 		}, this);
 		return (
-			<table>
+			<div className="table-responsive">
+			<table className="table table-striped table-bordered table-condensed">
 			<thead><tr><th>Linja</th><th>Ohittaa</th><th>Minuuttia aikaa</th></tr></thead>
 			<tbody>
 			{departures}
 			</tbody>
 			</table>
+			</div>
 		);
 	}
 });
