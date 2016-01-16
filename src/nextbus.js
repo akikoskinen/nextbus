@@ -122,7 +122,12 @@ var StopInfos = React.createClass({
 	}
 });
 
-var stopCodes = ['1412118', '1412134'];
+var stopCodes = location.hash.substr(1).split(',').map(function (str) {
+	return str.trim();
+}).filter(function (str) {
+	return str.length > 0;
+});
+
 ReactDOM.render(
 	<StopInfos stopCodes={stopCodes} />,
 	document.getElementById('root')
