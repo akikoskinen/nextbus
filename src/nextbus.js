@@ -46,14 +46,12 @@ var Departures = React.createClass({
 			);
 		}, this);
 		return (
-			<div className="table-responsive">
 			<table className="table table-striped table-bordered table-condensed">
 			<thead><tr><th>Linja</th><th>Ohittaa</th><th>Minuuttia aikaa</th></tr></thead>
 			<tbody>
 			{departures}
 			</tbody>
 			</table>
-			</div>
 		);
 	}
 });
@@ -106,7 +104,7 @@ var StopInfo = React.createClass({
 			<div>
 			<h3>{this.state.address_fi}</h3>
 			<Departures data={this.state.departures} now={this.props.now} />
-			<iframe width="200" height="200" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0" src={mapUrl}></iframe>
+			<iframe className="map" src={mapUrl}></iframe>
 			</div>
 		);
 	}

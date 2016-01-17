@@ -1,0 +1,13 @@
+.table {
+	width: auto;
+	display: inline-table;
+	vertical-align: top;
+	margin-right: 20px;
+}
+
+iframe.map {
+	width: 200px;
+	height: 200px;
+	margin: 0;
+	border: 0;
+}
