@@ -64,10 +64,16 @@ var StopInfo = React.createClass({
 		var req = new XMLHttpRequest();
 		req.addEventListener('load', function () {
 			var res = JSON.parse(this.responseText)[0];
+
 			res.departures.forEach(function (value) {
 				value.time = dateTimeIntsToDate(value.date, value.time);
 				delete value.date;
 			});
+
+			var coords = res.wgs_coords.split(',');
+			res.lon = coords[0];
+			res.lat = coords[1];
+
 			self.setState(res);
 
 			setTimeout(self._getInfo, NormalFetchInterval);
@@ -81,16 +87,26 @@ var StopInfo = React.createClass({
 		req.send();
 	},
 	getInitialState: function () {
-		return { departures: [] };
+		return {};
 	},
 	componentDidMount: function () {
 		this._getInfo();
 	},
 	render: function () {
+		if (this.state.departures == undefined) {
+			return (
+			<h3>Hetkinen...</h3>
+			);
+		}
+
+		var lon = this.state.lon;
+		var lat = this.state.lat;
+		var mapUrl = 'http://www.openstreetmap.org/export/embed.html?bbox=' + lon + ',' + lat + ',' + lon + ',' + lat + '&layer=transportmap&marker=' + lat + ',' + lon;
 		return (
 			<div>
 			<h3>{this.state.address_fi}</h3>
 			<Departures data={this.state.departures} now={this.props.now} />
+			<iframe width="200" height="200" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0" src={mapUrl}></iframe>
 			</div>
 		);
 	}
