@@ -89,6 +89,11 @@ var StopInfo = React.createClass({
 	},
 	componentDidMount: function () {
 		this._getInfo();
+		document.addEventListener('visibilitychange', function () {
+			if (!document.hidden) {
+				this._getInfo();
+			}
+		}.bind(this));
 	},
 	render: function () {
 		if (this.state.departures == undefined) {
