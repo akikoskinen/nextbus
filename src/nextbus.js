@@ -126,6 +126,11 @@ var StopInfos = React.createClass({
 	},
 	componentDidMount: function () {
 		this._updateState();
+		document.addEventListener('visibilitychange', function () {
+			if (!document.hidden) {
+				this._updateState();
+			}
+		}.bind(this));
 	},
 	render: function () {
 		var stopInfos = this.props.stopCodes.map(function (stopCode) {
