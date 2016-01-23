@@ -2,11 +2,20 @@
   "name": "nextbus",
   "version": "0.0.1",
   "description": "",
-  "main": "nextbus.js",
+  "main": "server.js",
   "author": "Aki Koskinen",
-  "devDependencies": {
+  "dependencies": {
     "babel-preset-react": "^6.3.13",
     "babelify": "^7.2.0",
-    "browserify": "^12.0.1"
+    "browserify": "^12.0.1",
+    "express": "^4.13.4",
+    "serve-static": "^1.10.2"
+  },
+  "scripts": {
+    "postinstall": "mkdir -p build && browserify -t [ babelify --presets [ react ] ] src/nextbus.js -o build/nextbus.js",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "^4.2.x"
   }
 }
