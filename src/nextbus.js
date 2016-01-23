@@ -81,7 +81,7 @@ var StopInfo = React.createClass({
 			setTimeout(self._getInfo, FailedFetchInterval);
 		});
 		var cred = 'userhash=6cd8b2e103f12ac32f5a217e5ff4b36aec11f6fe3c77';
-		req.open('GET', 'http://api.reittiopas.fi/hsl/beta/?' + cred + '&request=stop&code=' + this.props.code);
+		req.open('GET', '//api.reittiopas.fi/hsl/beta/?' + cred + '&request=stop&code=' + this.props.code);
 		req.send();
 	},
 	getInitialState: function () {
@@ -104,7 +104,7 @@ var StopInfo = React.createClass({
 
 		var lon = this.state.lon;
 		var lat = this.state.lat;
-		var mapUrl = 'http://www.openstreetmap.org/export/embed.html?bbox=' + lon + ',' + lat + ',' + lon + ',' + lat + '&layer=transportmap&marker=' + lat + ',' + lon;
+		var mapUrl = '//www.openstreetmap.org/export/embed.html?bbox=' + lon + ',' + lat + ',' + lon + ',' + lat + '&layer=transportmap&marker=' + lat + ',' + lon;
 		return (
 			<div>
 			<h3>{this.state.address_fi}</h3>
