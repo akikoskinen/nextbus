@@ -18,7 +18,8 @@ function lineFromJORE(jore) {
 function dateTimeIntsToDate(date, time) {
 	date = '' + date;
 	time = '' + time;
-	return new Date(date.substr(0, 4), date.substr(4, 2) - 1, date.substr(6, 2), time.substr(0, 2), time.substr(2, 2));
+	var minutesLen = time.length - 2;
+	return new Date(date.substr(0, 4), date.substr(4, 2) - 1, date.substr(6, 2), time.substr(0, minutesLen), time.substr(minutesLen, 2));
 }
 
 var Departure = React.createClass({
