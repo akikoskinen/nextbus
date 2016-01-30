@@ -96,6 +96,9 @@ var StopInfo = React.createClass({
 			}
 		}.bind(this));
 	},
+	_removeStop: function () {
+		removeStop(this.props.code);
+	},
 	render: function () {
 		if (this.state.departures == undefined) {
 			return (
@@ -108,7 +111,7 @@ var StopInfo = React.createClass({
 		var mapUrl = '//www.openstreetmap.org/export/embed.html?bbox=' + lon + ',' + lat + ',' + lon + ',' + lat + '&layer=transportmap&marker=' + lat + ',' + lon;
 		return (
 			<div>
-			<h3>{this.state.address_fi}</h3>
+			<h3>{this.state.address_fi} <button type="button" className="close" title="Poista" onClick={this._removeStop}>&times;</button></h3>
 			<Departures data={this.state.departures} now={this.props.now} />
 			<iframe className="map" src={mapUrl}></iframe>
 			</div>
@@ -147,13 +150,30 @@ var StopInfos = React.createClass({
 	}
 });
 
-var stopCodes = location.hash.substr(1).split(',').map(function (str) {
-	return str.trim();
-}).filter(function (str) {
-	return str.length > 0;
-});
+function stopCodes() {
+	return location.hash.substr(1).split(',').map(str => {
+		return str.trim();
+	}).filter(str => {
+		return str.length > 0;
+	});
+};
 
-ReactDOM.render(
-	<StopInfos stopCodes={stopCodes} />,
-	document.getElementById('root')
-);
+function setStopCodes(codes) {
+	location.hash = '#' + codes.join(',');
+	renderStops();
+};
+
+function removeStop(code) {
+	setStopCodes(stopCodes().filter(elem => {
+		return elem !== code;
+	}));
+};
+
+function renderStops() {
+	ReactDOM.render(
+		<StopInfos stopCodes={stopCodes()} />,
+		document.getElementById('root')
+	);
+};
+
+renderStops();
